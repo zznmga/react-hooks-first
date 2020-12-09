@@ -5,23 +5,17 @@ import { TodoList } from './TodoList';
 
 function App() {
   const [todoTitle, setTodoTitle] = useState('');
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: 'React',
-      completed: false,
-    },
-    {
-      id: 2,
-      title: 'Angular',
-      completed: true,
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      completed: false,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  const handlerClick = () => console.log('click');
+
+  useEffect(() => {
+    setTodos(JSON.parse(localStorage.getItem('todos')) || []);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   const handlerChangeInput = (event) => {
     setTodoTitle(event.target.value);
@@ -37,6 +31,7 @@ function App() {
           completed: true,
         },
       ]);
+
       setTodoTitle('');
     }
   };
