@@ -16,6 +16,11 @@ function App() {
       title: 'Angular',
       completed: true,
     },
+    {
+      id: 3,
+      title: 'Vue',
+      completed: false,
+    },
   ]);
 
   const handlerChangeInput = (event) => {
