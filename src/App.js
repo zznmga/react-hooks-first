@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import React from 'react';
 import './App.css';
 import { TodoList } from './TodoList';
+import { Context } from './context';
 
 function App() {
   const [todoTitle, setTodoTitle] = useState('');
@@ -36,24 +37,46 @@ function App() {
     }
   };
 
+  const removeItem = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const toggleItem = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      })
+    );
+  };
+
   return (
-    <div className="row">
+    <Context.Provider
+      value={{
+        removeItem,
+        toggleItem,
+      }}
+    >
       <div className="row">
-        <div className="input-field col s3">
-          <input
-            placeholder="Placeholder"
-            id="first_name"
-            type="text"
-            value={todoTitle}
-            className="validate"
-            onChange={handlerChangeInput}
-            onKeyPress={handlerKey}
-          />
+        <div className="row">
+          <div className="input-field col s3">
+            <input
+              placeholder="Placeholder"
+              id="first_name"
+              type="text"
+              value={todoTitle}
+              className="validate"
+              onChange={handlerChangeInput}
+              onKeyPress={handlerKey}
+            />
+          </div>
         </div>
+        <TodoList todos={todos} />
+        <div id="history"></div>
       </div>
-      <TodoList todos={todos} />
-      <div id="history"></div>
-    </div>
+    </Context.Provider>
   );
 }
 
